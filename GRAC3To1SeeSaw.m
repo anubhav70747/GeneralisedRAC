@@ -19,8 +19,8 @@ function [vstepM,Rho,M] = GRAC3To1SeeSaw(a)
 
 % preparing seven binary outcome measurements
 % bits
-    M = cell(7,1); % for storing resultant measurements
-    M_sdp = cell(7,1); % for storing sdp variables for measurements
+    M = cell(7,2); % for storing resultant measurements
+    M_sdp = cell(7,2); % for storing sdp variables for measurements
     Fm = [];
     for y = 1:7
         sum = 0;
@@ -35,8 +35,9 @@ function [vstepM,Rho,M] = GRAC3To1SeeSaw(a)
     end
     vstepM = 100; vstepS = 0; % declaring loop parameters 
     while (abs(vstepM-vstepS) >= 0.000000001)
-        % sdp for states.
+        % sdp for states
         stepS = GRAC3To1Success(Rho_sdp,M,a); % the success metric
+        % the state optimization step
         diagnostics = optimize([Fs;], -stepS, sdpsettings('solver', 'sdpt3','verbose',0));
         % preparing states for the measurement sdp.
         for a0 = 1:2
@@ -46,9 +47,11 @@ function [vstepM,Rho,M] = GRAC3To1SeeSaw(a)
                 end
             end
         end
+        % extracting the value of the objective function for the state step
         vstepS = value(stepS)
         % sdp for measurements.
         stepM = GRAC3To1Success(Rho,M_sdp,a); % the success metric
+        % the measurement optimization step
         diagnostics = optimize([Fm;], -stepM, sdpsettings('solver', 'sdpt3','verbose',0));
         % preparing states for the state sdp.
         for y = 1:7
@@ -56,5 +59,6 @@ function [vstepM,Rho,M] = GRAC3To1SeeSaw(a)
                 M{y,k} = value(M_sdp{y,k});
             end
         end
+         % extracting the value of the objective function for the measurement step
         vstepM = value(stepM)
     end
