@@ -22,7 +22,7 @@ function S = GRAC3To1EACCSuccess(Rho,MA,MB,a)
                         S = S + trace(Rho*kron(MA{a0,a1,a2,m},MB{5,m,xor(a0-1,a2-1)+1}));
                     end
                     if a(6) == 1 % a1+a2
-                        S = S + trace(Rho*kron(MA{a0,a1,a2,m},M{6,m,xor(a1-1,a2-1)+1}));
+                        S = S + trace(Rho*kron(MA{a0,a1,a2,m},MB{6,m,xor(a1-1,a2-1)+1}));
                     end
                     if a(7) == 1 % a0+a2
                         S = S + trace(Rho*kron(MA{a0,a1,a2,m},MB{7,m,xor(xor(a1-1,a2-1),a0-1)+1}));

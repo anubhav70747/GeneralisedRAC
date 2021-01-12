@@ -1,6 +1,7 @@
 % a function for generalized RAC, it takes as input a boolean array of length seven to mark
 % which of the seven functions we need to maximize, the array specifies which
 % of the seven functions is maxed [a0,a1,a2,a0+a1,a0+a2,a1+a2,a0+a1+a2]
+% along with dimension of the entangled states
 function [vstepMB,Rho,MA,MB] = GRAC3To1EACCSeeSaw(a,q)
 % preparing the potentially entangled state 
     Rho_sdp = sdpvar(q^2,q^2,'hermitian','complex'); % for storing sdp variables for states
